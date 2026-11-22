@@ -71,4 +71,4 @@ gg_miss_span(dane,
              facet = gndr)
 ```
 
- 
+ ##tu powinny byc zapiski z mojej galezi
