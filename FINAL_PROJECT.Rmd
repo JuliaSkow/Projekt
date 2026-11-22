@@ -1,0 +1,84 @@
+---
+
+title: "Wpływ sztucznej inteligencji (AI)"
+author: "Twoje Imię i Nazwisko"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: tango
+    thumbnails: true
+    lightbox: true
+    gallery: false
+    toc_depth: 3
+    code_folding: hide
+
+---
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(naniar)
+library(misty)
+library(mvnmle)
+library(VIM) 
+dane <- read_csv("CRON3w5e01_1.csv")
+n_miss(dane)
+```
+
+# 1.  WPROWADZENIE
+Nasze dane pochodzą ze strony:
+DOTYCZĄ:
+  
+# 2. Porządkowanie i czyszczenie danych
+
+Liczba braków w danych to `r n_miss(dane)`,
+co stanowi `r pct_miss(dane)` % wszystkich danych.
+
+```{r}
+gg_miss_var(dane)
+gg_miss_upset(dane)
+na.test(dane) ## nie dziala moze inne pakiety poszukac ALE CHYBA NIE BEDZIE EJDNAK DZIALAC BO NMAMY DANE TEKSTOWE 
+
+
+
+```
+
+```{r}
+# shadow mapa NA:
+vis_miss(dane, warn_large_data = FALSE)
+
+dane$cntry <- as.factor(dane$cntry)
+gg_miss_fct(x = dane, fct = cntry)
+```
+
+```{r}
+# sprawdzam braki danych (NA) w każdej kolumnie osobno dla grup płci (gndr), ułożone malejąco - od kolumn z największą liczbą braków do najmniejszej
+
+dane %>%
+  group_by(gndr) %>%
+  miss_var_summary()
+
+
+```
+
+```{r}
+# sprawdzam rozkład braków danych (NA) w zmiennej longweight_w1w5 w przedziałach co 500 obserwacji, w podziale na płeć (gndr)
+gg_miss_span(dane,
+             var = longweight_w1w5,
+             span_every = 500,
+             facet = gndr)
+```
+## 2.1 Spójność danych
+
+Zad dom: spawdz, czy nie masz brudnych danych- diagnostyka np czy wiek wiekszy od 0 (jest tutorial na enauczniu)
+
+## 2.2 Imputacja braków danych - dlaczego wybieramy taka metode imputacji czyli co jak i dlaczego tak wybralismy a nie inna np Hotdeck - 
+```{r} ##tego jeszcze nie klikalam
+dane2 <- VIM::hotdeck(dane)
+n_miss(dane2)
+## powinno byc 0
+```
+
