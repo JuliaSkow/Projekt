@@ -1,0 +1,23 @@
+---
+title: ""
+date: "`r Sys.Date()`"
+output:
+  rmdformats::readthedown:
+    highlight: kate
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+dane <- read_csv("CRON3w5e01_1.csv")
+library(tidyverse)
+
+```
+### WPROWADZENIE
+Nasze dane pochodzą ze strony:
+DOTYCZĄ:
+  
+#Porządkowanie i czyszczenie danych
+
